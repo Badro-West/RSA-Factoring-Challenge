@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+
+def factorize_number(number):
+    divisor = 2
+    while number % divisor != 0:
+        divisor += 1
+    return number // divisor
+
+if __name__ == '__main__':
+    from sys import argv
+
+    if len(argv) != 2:
+        exit(1)
+        
+    with open(argv[1], "r") as file:
+        for line in file:
+            number = int(line.rstrip())
+            result = factorize_number(number)
+            print(f"{number} = {result} * {number // result}")
+

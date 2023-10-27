@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Verify if the correct number of arguments has been supplied
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <file>"
+    exit 1
+fi
+
+# Define the input file that contains natural numbers to factor
+input_file="$1"
+
+# Create a function to factorize a number into two smaller numbers
+factorize() {
+    local num="$1"
+    local factor1
+    local factor2
+
+    for (( factor1=2; factor1*factor1 <= num; factor1++ )); do
+        if (( num % factor1 == 0 )); then
+            factor2=$((num / factor1))
+            echo "$num = $factor2 * $factor1"
+            break
+        fi
+    done
+}
+
+# Process the input file line by line
+while read -r line; do
+    number=$(echo "$line" | tr -d '\n\r')
+    factorize "$number"
+done < "$input_file"
+
