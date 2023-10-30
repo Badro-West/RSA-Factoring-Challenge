@@ -1,44 +1,47 @@
+#!/usr/bin/python3
 import sys
-import math
 
-def is_prime(n):
-    if n <= 1:
-        return False
-    if n <= 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    i = 5
-    while i * i <= n:
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-        i += 6
-    return True
+"""
+File_name: rsa
+Created: 28th of May, 2023
+Auth: David James Taiye (Official0mega)
+Size: undefined
+Project: RSA-Factoring-Challenge
+Status: submitted.
+"""
 
-def factorize_rsa(n):
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0 and is_prime(i):
-            j = n // i
-            if is_prime(j):
-                return f"{n}={i}*{j}"
-    return f"No prime factorization found for {n}"
 
-if len(sys.argv) != 2:
-    print("Usage: rsa <file>")
-    sys.exit(1)
+def factorization():
 
-input_file = sys.argv[1]
+    """
+    # RSA Laboratories states that: for each RSA number n
+    # ...there exist prime numbers p and q such that
+    # n = p × q. The problem is to find these two primes, given only n.
+    # VARIABLE(" "):
+    # factorize(int) Factorize all the things!
+    # This task is the same as task 0, except:
+    # .....p and q are always prime numbers
+    # .....There is only one number in the files
+    # .....How far can you go in less than 5 second? 🤔🤔🤔
+    """
+    try:
+        files = sys.argv[1]
+        with open(files) as f:
+            for numbs in f:
+                numbs = int(numbs)
+                if numbs % 2 == 0:
+                    print("{}={}*{}".format(numbs, numbs // 2, 2))
+                    continue
+                run = 3
+                while run < numbs // 2:
+                    if numbs % run == 0:
+                        print("{}={}*{}".format(numbs, numbs // run, run))
+                        break
+                    run = run + 2
+                if run == (numbs // 2) + 1:
+                    print("{}={}*{}".format(numbs, numbs, 1))
+    except (IndexError):
+        pass
 
-try:
-    with open(input_file, 'r') as file:
-        n = int(file.read().strip())
-except FileNotFoundError:
-    print(f"File '{input_file}' not found.")
-    sys.exit(1)
-except ValueError:
-    print("Invalid input in the file.")
-    sys.exit(1)
 
-result = factorize_rsa(n)
-print(result)
-
+factorization()
